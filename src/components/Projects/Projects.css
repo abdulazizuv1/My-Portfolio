@@ -1,0 +1,114 @@
+.projects {
+  padding: 8rem 0 6rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.projects__header {
+  padding: 0 2.5rem;
+  margin-bottom: 3.5rem;
+}
+
+.projects__label {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin-bottom: 0.75rem;
+  display: block;
+}
+
+.projects__title {
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 9vw, 8rem);
+  line-height: 0.9;
+  color: var(--color-text);
+  letter-spacing: 0.02em;
+}
+
+.projects__title em {
+  font-family: var(--font-accent);
+  font-style: italic;
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 6px;
+  text-decoration-thickness: 2px;
+}
+
+/* Carousel */
+.projects__carousel {
+  position: relative;
+}
+
+.projects__track {
+  display: flex;
+  gap: 1.5rem;
+  padding: 1rem 2.5rem 2rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.projects__track::-webkit-scrollbar { display: none; }
+
+.projects__track > * {
+  scroll-snap-align: start;
+}
+
+/* Navigation */
+.projects__nav {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 0 2.5rem;
+  margin-top: 1.5rem;
+}
+
+.projects__arrow {
+  width: 44px;
+  height: 44px;
+  border: 1.5px solid var(--color-border);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s, background 0.2s;
+  font-size: 1rem;
+  color: var(--color-muted);
+  flex-shrink: 0;
+}
+
+.projects__arrow:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.projects__dots {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.projects__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-border);
+  border: none;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.projects__dot.active {
+  background: var(--color-accent);
+  transform: scale(1.4);
+}
+
+@media (max-width: 768px) {
+  .projects { padding: 5rem 0 4rem; }
+  .projects__header { padding: 0 1.25rem; }
+  .projects__track { padding: 1rem 1.25rem 2rem; }
+  .projects__nav { padding: 0 1.25rem; }
+}
