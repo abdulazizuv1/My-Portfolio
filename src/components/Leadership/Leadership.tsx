@@ -16,7 +16,7 @@ const roles = [
     org: 'Yosh Turizm Elchilari',
     dates: '2025 — Present',
     description:
-      'Led cultural content initiatives, coordinating teams and programs to promote youth tourism and cultural exchange across Uzbekistan.',
+      'Led cultural content initiatives, coordinating teams and programs to promote youth tourism and cultural exchange across Uzbekistan with Yosh Turizm Elchilari team.',
     skills: ['Leadership', 'Cultural Content', 'Team Management', 'Programs'],
   },
   {

@@ -84,6 +84,7 @@ const glowStyle = computed(() => ({
   padding: 1.75rem 1.5rem 1.5rem;
   overflow: hidden;
   will-change: transform;
+  border: 2px solid #c4d504c6 !important;
 }
 
 .l-card__glow {
