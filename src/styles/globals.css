@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+/* ─── Default (dark) CSS vars on :root as fallback ─── */
 :root {
   --color-bg:       #080808;
   --color-surface:  #111111;
@@ -8,12 +9,52 @@
   --color-accent-2: #FF3D3D;
   --color-text:     #F0EDE6;
   --color-muted:    #666666;
+  --nav-bg:         rgba(8, 8, 8, 0.7);
+  --card-shadow:    none;
+  --noise-opacity:  0.04;
 
   --font-display: 'Bebas Neue', sans-serif;
   --font-body:    'DM Sans', sans-serif;
   --font-accent:  'Playfair Display', serif;
 }
 
+/* ─── Dark Theme (explicit class) ─── */
+html.theme-dark {
+  --color-bg:       #080808;
+  --color-surface:  #111111;
+  --color-border:   #1e1e1e;
+  --color-accent:   #E8FF00;
+  --color-accent-2: #FF3D3D;
+  --color-text:     #F0EDE6;
+  --color-muted:    #666666;
+  --nav-bg:         rgba(8, 8, 8, 0.7);
+  --card-shadow:    none;
+  --noise-opacity:  0.04;
+}
+
+/* ─── Light Theme ─── */
+html.theme-light {
+  --color-bg:       #F5F2EC;
+  --color-surface:  #FFFFFF;
+  --color-border:   #E0DBD0;
+  --color-accent:   #1A1A1A;
+  --color-accent-2: #C8390A;
+  --color-text:     #0D0D0D;
+  --color-muted:    #888070;
+  --nav-bg:         rgba(245, 242, 236, 0.88);
+  --card-shadow:    0 4px 32px rgba(0, 0, 0, 0.10);
+  --noise-opacity:  0.03;
+}
+
+/* ─── Smooth theme transitions (exclude GSAP-animated elements) ─── */
+*:not([data-gsap]),
+*:not([data-gsap])::before,
+*:not([data-gsap])::after {
+  transition: background-color 0.4s ease, color 0.3s ease,
+    border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* ─── Base reset ─── */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -71,7 +112,7 @@ a { color: inherit; text-decoration: none; }
   position: absolute;
   inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  opacity: 0.04;
+  opacity: var(--noise-opacity, 0.04);
   pointer-events: none;
   z-index: 1;
 }

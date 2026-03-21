@@ -1,16 +1,26 @@
 <template>
   <div
     class="p-card"
-    :class="{ active: isActive }"
+    :class="{ active: isActive, hovered: hovered }"
     @mouseenter="hovered = true"
     @mouseleave="hovered = false"
   >
+    <!-- Selected indicator -->
+    <div class="p-card__selected-bar" :style="{ background: accent }" />
+
     <!-- Color accent stripe -->
     <div class="p-card__stripe" :style="{ background: accent }" />
 
     <!-- Image area -->
     <div class="p-card__image-wrap">
-      <div class="p-card__image-placeholder" :style="{ background: imageBg }">
+      <img
+        v-if="image"
+        :src="image"
+        :alt="title"
+        class="p-card__image"
+        loading="lazy"
+      />
+      <div v-else class="p-card__image-placeholder">
         <span class="p-card__image-label">{{ title }}</span>
       </div>
 
@@ -41,7 +51,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-const props = defineProps<{
+defineProps<{
   title: string
   description: string
   tech: string[]
@@ -49,11 +59,10 @@ const props = defineProps<{
   liveUrl?: string
   accent: string
   isActive: boolean
+  image?: string
 }>()
 
 const hovered = ref(false)
-
-const imageBg = `linear-gradient(135deg, #161616 0%, #1e1e00 100%)`
 </script>
 
 <style scoped>
@@ -67,7 +76,7 @@ const imageBg = `linear-gradient(135deg, #161616 0%, #1e1e00 100%)`
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), opacity 0.4s, filter 0.4s;
+  transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), opacity 0.4s, filter 0.4s, box-shadow 0.3s, border-color 0.3s;
   overflow: hidden;
 }
 
@@ -83,6 +92,34 @@ const imageBg = `linear-gradient(135deg, #161616 0%, #1e1e00 100%)`
   filter: brightness(1);
 }
 
+/* Hover "selected" state */
+.p-card.hovered {
+  border-color: rgba(232, 255, 0, 0.4);
+  box-shadow: 0 0 40px rgba(232, 255, 0, 0.08), 0 20px 60px rgba(0,0,0,0.4);
+  transform: scale(1) translateY(-4px);
+}
+
+.p-card:not(.active).hovered {
+  transform: scale(0.92) translateY(-4px);
+}
+
+/* Left accent bar that appears on hover */
+.p-card__selected-bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+  z-index: 2;
+}
+
+.p-card.hovered .p-card__selected-bar {
+  transform: scaleY(1);
+}
+
 .p-card__stripe {
   height: 3px;
   width: 100%;
@@ -95,12 +132,25 @@ const imageBg = `linear-gradient(135deg, #161616 0%, #1e1e00 100%)`
   overflow: hidden;
 }
 
+.p-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+
+.p-card.hovered .p-card__image {
+  transform: scale(1.04);
+}
+
 .p-card__image-placeholder {
   width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: linear-gradient(135deg, #161616 0%, #1e1e00 100%);
 }
 
 .p-card__image-label {

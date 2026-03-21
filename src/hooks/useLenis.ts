@@ -22,22 +22,15 @@ export function useLenis() {
     lenisInstance = lenis
 
     // Connect Lenis to GSAP ticker
-    gsap.ticker.add((time) => {
-      lenis.raf(time * 1000)
-    })
-
+    const rafCallback = (time: number) => { lenis.raf(time * 1000) }
+    gsap.ticker.add(rafCallback)
     gsap.ticker.lagSmoothing(0)
 
     // Update ScrollTrigger on Lenis scroll
     lenis.on('scroll', ScrollTrigger.update)
 
-    // Scroll progress bar
-    lenis.on('scroll', ({ progress }: { progress: number }) => {
-      const bar = document.getElementById('scroll-progress')
-      if (bar) bar.style.width = `${progress * 100}%`
-    })
-
     return () => {
+      gsap.ticker.remove(rafCallback)
       lenis.destroy()
       lenisInstance = null
     }

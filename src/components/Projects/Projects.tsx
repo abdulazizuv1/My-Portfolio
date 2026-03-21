@@ -15,6 +15,7 @@ const projects = [
     tech: ['React', 'Firebase', 'GPT-4', 'Node.js', 'IndexedDB', 'Service Worker'],
     liveUrl: 'https://yescenter.uz',
     accent: '#E8FF00',
+    image: '/images/yes.png',
   },
   {
     title: 'Maqom FIMMI School',
@@ -23,6 +24,7 @@ const projects = [
     tech: ['HTML', 'CSS', 'JavaScript', 'SEO', 'Performance'],
     liveUrl: 'https://maqom-fimmi.uz',
     accent: '#FF3D3D',
+    image: '/images/maqom.png',
   },
   {
     title: 'Quva BMSM-13',
@@ -31,6 +33,7 @@ const projects = [
     tech: ['HTML', 'CSS', 'JavaScript', 'Responsive Design'],
     liveUrl: 'https://quva-bmsm-13.uz',
     accent: '#00CFFF',
+    image: '/images/bmsm.png',
   },
 ]
 

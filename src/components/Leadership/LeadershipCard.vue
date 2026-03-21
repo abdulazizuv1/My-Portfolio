@@ -3,6 +3,7 @@
     class="l-card"
     @mousemove="onMouseMove"
     @mouseleave="onMouseLeave"
+    @click="emit('cardClick', cardId)"
     :style="cardStyle"
   >
     <div class="l-card__glow" :style="glowStyle" />
@@ -15,6 +16,7 @@
       <div class="l-card__tags">
         <span v-for="tag in skills" :key="tag" class="l-card__tag">{{ tag }}</span>
       </div>
+      <span class="l-card__cta">View details →</span>
     </div>
   </div>
 </template>
@@ -29,6 +31,11 @@ const props = defineProps<{
   dates: string
   description: string
   skills: string[]
+  cardId: string
+}>()
+
+const emit = defineEmits<{
+  (e: 'cardClick', id: string): void
 }>()
 
 const rotateX = ref(0)
@@ -59,6 +66,7 @@ const cardStyle = computed(() => ({
   transform: `perspective(800px) rotateX(${rotateX.value}deg) rotateY(${rotateY.value}deg) translateY(${hovered.value ? '-6px' : '0'})`,
   transition: hovered.value ? 'transform 0.1s ease' : 'transform 0.5s ease',
   borderLeft: hovered.value ? '3px solid var(--color-accent)' : '1px solid var(--color-border)',
+  cursor: 'pointer',
 }))
 
 const glowStyle = computed(() => ({
@@ -131,6 +139,7 @@ const glowStyle = computed(() => ({
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
+  margin-bottom: 1rem;
 }
 
 .l-card__tag {
@@ -144,5 +153,19 @@ const glowStyle = computed(() => ({
   border: 1px solid rgba(232, 255, 0, 0.2);
   padding: 0.25rem 0.6rem;
   border-radius: 999px;
+}
+
+.l-card__cta {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  transition: color 0.2s;
+}
+
+.l-card:hover .l-card__cta {
+  color: var(--color-accent);
 }
 </style>

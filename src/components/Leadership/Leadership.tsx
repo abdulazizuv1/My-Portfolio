@@ -1,8 +1,9 @@
-import { useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { createApp } from 'vue'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import LeadershipCard from './LeadershipCard.vue'
+import LeadershipModal from './LeadershipModal'
 import './Leadership.css'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -10,15 +11,17 @@ gsap.registerPlugin(ScrollTrigger)
 const roles = [
   {
     index: 1,
+    cardId: 'yosh-turizm',
     role: 'Manager for Initiatives',
     org: 'Yosh Turizm Elchilari',
-    dates: '2024 — Present',
+    dates: '2025 — Present',
     description:
       'Led cultural content initiatives, coordinating teams and programs to promote youth tourism and cultural exchange across Uzbekistan.',
     skills: ['Leadership', 'Cultural Content', 'Team Management', 'Programs'],
   },
   {
     index: 2,
+    cardId: 'mun',
     role: 'SIFMUN Organiser & MUN Participant',
     org: 'Model United Nations',
     dates: '2024 — Present',
@@ -28,9 +31,10 @@ const roles = [
   },
   {
     index: 3,
+    cardId: 'startup-club',
     role: 'Chief Technology Officer',
     org: 'Start-Up Club',
-    dates: '2024 — Present',
+    dates: '2026 — Present',
     description:
       'Leading the technical vision of the startup club, mentoring members on full-stack development, and overseeing product architecture and delivery.',
     skills: ['Full-Stack', 'Mentoring', 'Architecture', 'Product', 'Leadership'],
@@ -42,26 +46,35 @@ const marqueeItems = [
   'Cultural Content', 'Public Speaking', 'Innovation', 'Strategy',
 ]
 
-function VueCardMount({ data }: { data: typeof roles[0] }) {
+function VueCardMount({
+  data,
+  onCardClick,
+}: {
+  data: typeof roles[0]
+  onCardClick: (id: string) => void
+}) {
   const elRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (!elRef.current) return
-    const app = createApp(LeadershipCard, data)
+    const app = createApp(LeadershipCard, {
+      ...data,
+      onCardClick: (id: string) => onCardClick(id),
+    })
     app.mount(elRef.current)
     return () => app.unmount()
   }, [])
 
-  return <div ref={elRef} />
+  return <div ref={elRef} onClick={() => onCardClick(data.cardId)} style={{ cursor: 'pointer' }} />
 }
 
 export default function Leadership() {
+  const [activeId, setActiveId] = useState<string | null>(null)
   const sectionRef = useRef<HTMLElement>(null)
   const gridRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Cards reveal
       const cards = gridRef.current?.children
       if (cards) {
         gsap.fromTo(
@@ -81,7 +94,6 @@ export default function Leadership() {
         )
       }
 
-      // Title reveal
       gsap.fromTo(
         '.leadership__title',
         { y: 60, opacity: 0 },
@@ -102,25 +114,29 @@ export default function Leadership() {
   }, [])
 
   return (
-    <section ref={sectionRef} id="leadership" className="leadership">
-      <div className="leadership__header">
-        <h2 className="leadership__title">Leadership</h2>
-        <span className="leadership__counter">01</span>
-      </div>
+    <>
+      <section ref={sectionRef} id="leadership" className="leadership">
+        <div className="leadership__header">
+          <h2 className="leadership__title">Leadership</h2>
+          <span className="leadership__counter">01</span>
+        </div>
 
-      <div className="leadership__marquee-wrap">
-        <div className="leadership__marquee">
-          {[...marqueeItems, ...marqueeItems].map((item, i) => (
-            <span key={i} className="leadership__marquee-item">{item}</span>
+        <div className="leadership__marquee-wrap">
+          <div className="leadership__marquee">
+            {[...marqueeItems, ...marqueeItems].map((item, i) => (
+              <span key={i} className="leadership__marquee-item">{item}</span>
+            ))}
+          </div>
+        </div>
+
+        <div ref={gridRef} className="leadership__grid">
+          {roles.map((role) => (
+            <VueCardMount key={role.index} data={role} onCardClick={setActiveId} />
           ))}
         </div>
-      </div>
+      </section>
 
-      <div ref={gridRef} className="leadership__grid">
-        {roles.map((role) => (
-          <VueCardMount key={role.index} data={role} />
-        ))}
-      </div>
-    </section>
+      <LeadershipModal activeId={activeId} onClose={() => setActiveId(null)} />
+    </>
   )
 }

@@ -59,7 +59,7 @@ function PageLoader({ onDone }: { onDone: () => void }) {
           letterSpacing: '0.05em',
         }}
       >
-        A<span style={{ background: 'var(--color-accent)', color: '#000', padding: '0 6px' }}>V</span>
+        A<span style={{ background: 'var(--color-accent)', color: 'var(--color-bg)', padding: '0 6px' }}>V</span>
       </div>
       <span
         ref={countRef}
